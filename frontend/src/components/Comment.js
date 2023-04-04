@@ -3,8 +3,6 @@ import CommentsCss from "../styles/comments.module.css";
 export default function Comment({ comment }) {
   return (
     <div className={CommentsCss.container}>
-      <div className={CommentsCss.userName}>{comment.userName}</div>
-
       {comment.rate && (
         <div className={CommentsCss.starsCont}>
           {Array(comment.rate)
@@ -19,7 +17,10 @@ export default function Comment({ comment }) {
             })}
         </div>
       )}
-      <div className={CommentsCss.content}>{comment.content}</div>
+      {comment.content !== "" ? (
+        <div className={CommentsCss.content}>{comment.content}</div>
+      ) : null}
+      <div className={CommentsCss.userName}>{comment.userName}</div>
     </div>
   );
 }

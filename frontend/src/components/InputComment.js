@@ -18,7 +18,7 @@ function InputComment() {
   }, [singlePost]);
   async function postComment(e) {
     e.preventDefault();
-    if (text.current.value === "") return;
+    if (text.current.value === "" && rate === 0) return;
     console.log(rate);
     console.log(singlePost._id);
     const res = await fetch("http://localhost:4000/api/comments/add", {
@@ -66,17 +66,16 @@ function InputComment() {
         {isRated() ? null : (
           <InputRateStars rateValue={rate} onChange={setRate} />
         )}
-        <div>
-          <input
-            className={InputCommentCss.input}
-            type="text"
-            ref={text}
-            placeholder="Comment"
-          />
-          <button className={InputCommentCss.submit} type="submit">
-            Submit
-          </button>
-        </div>
+
+        <input
+          className={InputCommentCss.input}
+          type="text"
+          ref={text}
+          placeholder="Comment"
+        />
+        <button className={InputCommentCss.submit} type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

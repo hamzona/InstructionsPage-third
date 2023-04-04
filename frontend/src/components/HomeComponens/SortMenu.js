@@ -8,7 +8,7 @@ export default function SortMenu() {
       <select value={localRate} onChange={(e) => setLocalRate(e.target.value)}>
         <option value={undefined}>unchecked</option>
         <option value={"rate"}>best rate</option>
-        <option value={"new"}>newest</option>
+        <option value={"date"}>newest</option>
       </select>
       <button onClick={() => setSortBy(localRate)}>submit</button>
     </div>

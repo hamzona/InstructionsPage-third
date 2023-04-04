@@ -1,9 +1,9 @@
 POST http://localhost:4000/api/posts/add
 Content-Type: application/json
-Authorization: Berar eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2VkNWMzYWVlNmFjOWI0NzU4MDUyOTkiLCJpYXQiOjE2NzY1MDAwMjd9.MLXgnHe9Z3F3QljvsSE7FSo0ABHxP4s5G64t6_2dFAs
+Authorization: Berar eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2VmOTZlY2NiY2YyODY0ZjRkMDczZDkiLCJpYXQiOjE2ODA2MzcwOTF9.iOvJZpaEoLIbqSu4YPv_2IjVX0lGphUUrbX8s6C0nLE
 
 {
-    "title":"ovo je novi titl i ovo {{$randomInt min max}}"
+    "title":"ovo je novi titl i ovo"
 }
 
 ###

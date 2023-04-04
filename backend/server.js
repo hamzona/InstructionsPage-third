@@ -17,11 +17,16 @@ app.use("/api/posts", postsRoute);
 app.use("/api/users", authRoute);
 app.use("/api/comments", commentRoute);
 
-mongoose.connect(process.env.MONGO_URL).then(
-  app.listen(process.env.PORT, () => {
-    console.log(process.env.PORT);
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
-);
+  .then(
+    app.listen(process.env.PORT, () => {
+      console.log(process.env.PORT);
+    })
+  );
 mongoose.connection.on("open", () => {
   console.log("Connected");
 });
