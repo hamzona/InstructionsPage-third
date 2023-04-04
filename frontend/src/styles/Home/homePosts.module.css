@@ -11,8 +11,8 @@ body {
 }
 
 .container {
-  /* background-color: rgb(72, 83, 148);
- */
+  /* background-color: rgb(72, 83, 148); */
+  cursor: pointer;
   padding: 20px;
   height: 300px;
   width: 400px;
@@ -23,6 +23,11 @@ body {
   position: relative;
   display: block;
   word-wrap: break-word;
+}
+
+.container:hover {
+  background-color: rgb(160, 160, 160);
+  transition: 0.1s ease-in;
 }
 
 .userName {

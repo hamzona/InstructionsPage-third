@@ -30,7 +30,7 @@ export function PostContextProvider({ children }) {
   const [sortBy, setSortBy] = useState(null);
   useEffect(() => {
     let params = new URLSearchParams(
-      `page=${page}&limit=16&search=${search}&min=${minPrice}&max=${maxPrice}&jobType=${jobType}&sortBy=${sortBy}`
+      `page=${page}&limit=21&search=${search}&min=${minPrice}&max=${maxPrice}&jobType=${jobType}&sortBy=${sortBy}`
     );
     if (!jobType) {
       params.delete("jobType");
