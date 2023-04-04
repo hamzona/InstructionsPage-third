@@ -1,0 +1,25 @@
+.container {
+  width: 800px;
+  height: 60px;
+  border: solid 1px black;
+  display: flex;
+  position: relative;
+  align-items: center;
+  margin: 5px;
+}
+.userName {
+  position: absolute;
+  left: 40px;
+  font-size: 25px;
+}
+.content {
+  position: absolute;
+  right: 100px;
+  font-size: 20px;
+}
+.starsCont {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 150px;
+}
