@@ -50,7 +50,7 @@ export function PostContextProvider({ children }) {
     subjects.forEach((subject) => {
       params.append("subject", subject);
     });
-
+    console.log(params.toString());
     const getAllPosts = async () => {
       const res = await fetch(
         `http://localhost:4000/api/posts/allPosts?${params.toString()}`

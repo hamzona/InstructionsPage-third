@@ -1,0 +1,21 @@
+.container {
+  background-color: aqua;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectSort {
+  width: 100px;
+  height: 30px;
+  font-size: 15px;
+}
+.submitButton {
+  width: 100px;
+  height: 30px;
+}
+.title {
+  font-size: 30px;
+}

@@ -50,9 +50,10 @@ export default function Filter() {
           <div className={FilterCss.titles}> Subjects: </div>
           {subjectsConst.map((subject, index) => {
             return (
-              <div key={index}>
+              <div className={FilterCss.subject} key={index}>
                 {subject}
                 <input
+                  className={FilterCss.checkboxSubject}
                   type="checkbox"
                   value={subject}
                   checked={filterSubject.includes(subject)}
@@ -67,25 +68,34 @@ export default function Filter() {
       }
       <div>
         <div className={FilterCss.titles}>Price:</div>
-        <label htmlFor="min">od: </label>
-        <input
-          type="number"
-          id="min"
-          value={minPriceF}
-          onChange={(e) => {
-            setMinPriceF(e.target.value);
-          }}
-        />
-        <label htmlFor="max">do: </label>
-
-        <input
-          type="number"
-          id="max"
-          value={maxPriceF}
-          onChange={(e) => {
-            setMaxPriceF(e.target.value);
-          }}
-        />
+        <div className={FilterCss.PriceInputCont}>
+          <label className={FilterCss.labelPrice} htmlFor="min">
+            MIN:{" "}
+          </label>
+          <input
+            className={FilterCss.inputPrice}
+            type="number"
+            id="min"
+            value={minPriceF}
+            onChange={(e) => {
+              setMinPriceF(e.target.value);
+            }}
+          />
+        </div>
+        <div className={FilterCss.PriceInputCont}>
+          <label className={FilterCss.labelPrice} htmlFor="max">
+            MAX:{" "}
+          </label>
+          <input
+            className={FilterCss.inputPrice}
+            type="number"
+            id="max"
+            value={maxPriceF}
+            onChange={(e) => {
+              setMaxPriceF(e.target.value);
+            }}
+          />
+        </div>
       </div>
       <div>
         <div className={FilterCss.titles}>Type of work</div>

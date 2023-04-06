@@ -66,16 +66,17 @@ function InputComment() {
         {isRated() ? null : (
           <InputRateStars rateValue={rate} onChange={setRate} />
         )}
-
-        <input
-          className={InputCommentCss.input}
-          type="text"
-          ref={text}
-          placeholder="Comment"
-        />
-        <button className={InputCommentCss.submit} type="submit">
-          Submit
-        </button>
+        <div>
+          <input
+            className={InputCommentCss.input}
+            type="text"
+            ref={text}
+            placeholder="Comment"
+          />
+          <button className={InputCommentCss.submit} type="submit">
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );

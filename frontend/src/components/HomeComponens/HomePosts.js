@@ -23,7 +23,7 @@ export default function HomePosts({ item }) {
       {item.subject && <div>subject: {item.subject}</div>}
       {item.jobType && <div>job: {item.jobType}</div>}
       {item.price && <div>price: {item.price} KM</div>}
-      {item.rate && (
+      {item.rate === 0 || !item.rate ? null : (
         <div className={HomePostsCss.starsCont}>
           {Array(parseInt(item.rate))
             .fill(0)
