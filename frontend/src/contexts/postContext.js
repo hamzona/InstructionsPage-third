@@ -21,8 +21,8 @@ export function PostContextProvider({ children }) {
   /*filters */
   const [subjects, setSubjects] = useState([]);
   const [search, setSearch] = useState(null);
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(10000);
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
   const [jobType, setJobType] = useState(null);
   const [error, setError] = useState(null);
 

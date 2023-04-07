@@ -37,7 +37,8 @@ export default function HomePosts({ item }) {
             })}{" "}
         </div>
       )}
-      <DatePost date={item.date} />
+
+      {!item.date ? null : <DatePost date={item.date} />}
     </div>
   );
 }

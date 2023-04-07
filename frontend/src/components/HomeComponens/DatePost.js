@@ -1,4 +1,5 @@
 import React from "react";
+import DatePostCss from "../../styles/Home/datePost.module.css";
 export default function DatePost({ date }) {
   const now = new Date();
   let time = "seconds";
@@ -13,15 +14,16 @@ export default function DatePost({ date }) {
 
   if (timeFromCreate > 60 && time === "minute") {
     timeFromCreate = Math.floor(timeFromCreate / 60);
-    time = "hour";
+    time = "hours";
   }
 
   if (timeFromCreate > 24 && time === "hours") {
     timeFromCreate = Math.floor(timeFromCreate / 60);
     time = "day";
   }
+
   return (
-    <div>
+    <div className={DatePostCss.container}>
       {timeFromCreate}
       {`  ${time} ago`}{" "}
     </div>

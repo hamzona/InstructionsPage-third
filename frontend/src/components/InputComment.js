@@ -40,6 +40,7 @@ function InputComment() {
       upadateComment({ type: "add", payload: json.newComment });
       updateSinglePost({ type: "setSinglePost", payload: json.postRate });
       setRate(0);
+      window.scrollTo({ top: 400, behavior: "smooth" });
     }
     text.current.value = "";
   }

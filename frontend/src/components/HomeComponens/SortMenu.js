@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { usePostContext } from "../../hooks/usePostContext";
 import SortManuCss from "../../styles/Home/sortManu.module.css";
 export default function SortMenu() {
-  const { setSortBy } = usePostContext();
+  const { setSortBy, setPage } = usePostContext();
   const [localRate, setLocalRate] = useState(undefined);
   return (
     <div className={SortManuCss.container}>
@@ -18,7 +18,10 @@ export default function SortMenu() {
       </select>
       <button
         className={SortManuCss.submitButton}
-        onClick={() => setSortBy(localRate)}
+        onClick={() => {
+          setSortBy(localRate);
+          setPage(1);
+        }}
       >
         submit
       </button>

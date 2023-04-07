@@ -11,7 +11,8 @@ import SortMenu from "./SortMenu";
 function Home() {
   const { state, error } = usePostContext();
   const { state: stateUser } = useAuthContext();
-  const [stil, setStil] = useState(true);
+  const [isFilter, setIsFilter] = useState(false);
+  const [isSort, setIsSort] = useState(false);
   return (
     <div className={HomeCss.container}>
       <div className={HomeCss.homeNav}>
@@ -32,18 +33,25 @@ function Home() {
         )}
       </div>
       <Search />
+
       <button
         className={HomeCss.filterBtn}
         onClick={() =>
-          setStil((prev) => {
+          setIsFilter((prev) => {
             return !prev;
           })
         }
       >
         Filter
       </button>
-      {stil ? "" : <Filter />}
-      <SortMenu />
+      {isFilter ? <Filter /> : null}
+      <button
+        className={HomeCss.sortBtn}
+        onClick={() => setIsSort((prev) => !prev)}
+      >
+        SORT
+      </button>
+      {isSort ? <SortMenu /> : null}
       <div className={HomeCss.posts}>
         {error ? (
           <div>Error:{error}</div>

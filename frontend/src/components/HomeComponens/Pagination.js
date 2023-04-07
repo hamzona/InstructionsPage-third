@@ -9,7 +9,10 @@ export default function Pagination() {
       return (
         <button
           className={PaginationCss.numbers}
-          onClick={() => setPage(index + 1)}
+          onClick={() => {
+            setPage(index + 1);
+            window.scrollTo({ top: 0 });
+          }}
           key={index + 1}
           disabled={index + 1 === page}
         >
@@ -27,7 +30,10 @@ export default function Pagination() {
               className={PaginationCss.numbers}
               key={startValue + index + 1}
               disabled={startValue + index + 1 === page}
-              onClick={() => setPage(startValue + index + 1)}
+              onClick={() => {
+                setPage(startValue + index + 1);
+                window.scrollTo({ top: 0 });
+              }}
             >
               {startValue + index + 1}
             </button>
@@ -37,7 +43,10 @@ export default function Pagination() {
         <button className={PaginationCss.numbers}>...</button>
         <button
           className={PaginationCss.numbers}
-          onClick={() => setPage(pages)}
+          onClick={() => {
+            setPage(pages);
+            window.scrollTo({ top: 0 });
+          }}
         >
           {pages}
         </button>
@@ -50,7 +59,10 @@ export default function Pagination() {
           <>
             <button
               className={PaginationCss.numbers}
-              onClick={() => setPage(1)}
+              onClick={() => {
+                setPage(1);
+                window.scrollTo({ top: 0 });
+              }}
             >
               1
             </button>
@@ -61,7 +73,10 @@ export default function Pagination() {
                   className={PaginationCss.numbers}
                   key={startValue + index + 1}
                   disabled={startValue + index + 1 === page}
-                  onClick={() => setPage(startValue + index + 1)}
+                  onClick={() => {
+                    setPage(startValue + index + 1);
+                    window.scrollTo({ top: 0 });
+                  }}
                 >
                   {startValue + index + 1}
                 </button>
@@ -71,7 +86,10 @@ export default function Pagination() {
             <button className={PaginationCss.numbers}>...</button>
             <button
               className={PaginationCss.numbers}
-              onClick={() => setPage(pages)}
+              onClick={() => {
+                setPage(pages);
+                window.scrollTo({ top: 0 });
+              }}
             >
               {pages}
             </button>
@@ -84,7 +102,10 @@ export default function Pagination() {
           <>
             <button
               className={PaginationCss.numbers}
-              onClick={() => setPage(1)}
+              onClick={() => {
+                setPage(1);
+                window.scrollTo({ top: 0 });
+              }}
             >
               1
             </button>
@@ -98,7 +119,10 @@ export default function Pagination() {
                   className={PaginationCss.numbers}
                   key={startValue + index + 1}
                   disabled={startValue + index + 1 === page}
-                  onClick={() => setPage(startValue + index + 1)}
+                  onClick={() => {
+                    setPage(startValue + index + 1);
+                    window.scrollTo({ top: 0 });
+                  }}
                 >
                   {startValue + index + 1}
                 </button>
@@ -114,7 +138,10 @@ export default function Pagination() {
       <div className={PaginationCss.container}>
         <button
           className={PaginationCss.nextPrev}
-          onClick={() => setPage((prev) => prev - 1)}
+          onClick={() => {
+            setPage((prev) => prev - 1);
+            window.scrollTo({ top: 0 });
+          }}
           disabled={page === 1}
         >
           &#8701;{" "}
@@ -122,7 +149,10 @@ export default function Pagination() {
         {middlePagination}
         <button
           className={PaginationCss.nextPrev}
-          onClick={() => setPage((prev) => prev + 1)}
+          onClick={() => {
+            setPage((prev) => prev + 1);
+            window.scrollTo({ top: 0 });
+          }}
           disabled={page === pages}
         >
           &#8702;{" "}

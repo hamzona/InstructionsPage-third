@@ -53,12 +53,12 @@ Content-Type: application/json
 ###
 POST http://localhost:4000/api/comments/add
 Content-Type: application/json
-Authorization: Berar eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDI0MTY5OGU3YTY1NGVmM2MxNjUxMjciLCJpYXQiOjE2ODA0NjE4NzJ9.5c7ZF1o1VNxcQtadMgaNhDnzEC5vABlIbWoy0m3DYPM
+Authorization: Berar eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2VmOTZlY2NiY2YyODY0ZjRkMDczZDkiLCJpYXQiOjE2ODA2NDMyNTJ9.xZmAS4ZjAemOredzSnyFi4VmroAAgqpD77-2jKIpvrU
 
 {
 "content":"prelos",
-"postId":"642b3a1f708b2168dd2a752d",
-"userName":"",
+"postId":"642f0c0309aa9ddb356950c7",
+"userName":"haks",
 "rate":"3"
 }
 
