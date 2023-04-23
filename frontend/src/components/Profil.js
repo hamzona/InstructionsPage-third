@@ -15,14 +15,14 @@ export default function Profil() {
     dispatch({ type: "logout" });
     navigate("/");
   }
-
+  console.log(myPosts);
   return (
     <div className={ProfilCss.container}>
       <div className={ProfilCss.profilContainer}>
         <Link className={ProfilCss.back} to="/">
           BACK
         </Link>
-
+        <Link to="/imgUpload">UploadImg</Link>
         {state.user && <div className={ProfilCss.name}> {state.user.name}</div>}
         {state.user && (
           <div className={ProfilCss.email}>email: {state.user.email}</div>

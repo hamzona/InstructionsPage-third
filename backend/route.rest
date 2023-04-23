@@ -7,7 +7,7 @@ Authorization: Berar eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2VmOTZlY2
 }
 
 ###
-GET  http://localhost:4000/api/posts/allPosts?limit=100&sortBy=date
+GET  http://localhost:4000/api/posts/allPosts?page=1&limit=10&sortBy=rate
 ###
 GET   http://localhost:4000/api/posts/allMy
 Authorization: Berar eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2VkNWMzYWVlNmFjOWI0NzU4MDUyOTkiLCJpYXQiOjE2NzY1MDAwMjd9.MLXgnHe9Z3F3QljvsSE7FSo0ABHxP4s5G64t6_2dFAs

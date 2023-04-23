@@ -8,6 +8,5 @@ route.get("/singup", (req, res) => {
 route.post("/singup", singup);
 //login
 route.post("/login", login);
-//logout
 
 module.exports = route;

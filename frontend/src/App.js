@@ -4,10 +4,11 @@ import Input from "./components/Input";
 import { Login } from "./components/Login";
 import NoUser from "./components/NoUser";
 import Profil from "./components/Profil";
-import { Singup } from "./components/Singup";
+import { Singup } from "./components/Singup/Singup";
 import { useAuthContext } from "./hooks/useAuthContext";
 import useSinglePostContext from "./hooks/useSinglePostContext";
 import SinglePost from "./components/SinglePost";
+import UploadingImg from "./components/Singup/UploadingImg";
 function App() {
   const { state } = useAuthContext();
   const { singlePost } = useSinglePostContext();
@@ -40,6 +41,7 @@ function App() {
           path="/singup"
           element={state.user !== null ? <Navigate to="/" /> : <Singup />}
         />
+        <Route path="/imgUpload" element={<UploadingImg />} />
       </Routes>
     </BrowserRouter>
   );
