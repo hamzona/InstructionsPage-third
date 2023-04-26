@@ -5,8 +5,7 @@ const multer = require("multer");
 const Grid = require("gridfs-stream");
 const { GridFsStorage } = require("multer-gridfs-storage");
 const path = require("path");
-const { response } = require("express");
-
+const GridFSBucket = require("mongodb").GridFSBucket;
 const storage = new GridFsStorage({
   url: process.env.MONGO_URL,
   // options: { useNewUrlParser: true, useUnifiedTopology: true },
@@ -35,7 +34,7 @@ const saveFileName = async (req, res) => {
   try {
     let updateUser = await User.findByIdAndUpdate(
       { _id: req.user },
-      { imgName: req.file.filename },
+      { $set: { imgName: req.file.filename } },
       { returnOriginal: false }
     );
     const token = { token: req.jwt };
@@ -45,5 +44,56 @@ const saveFileName = async (req, res) => {
     res.status(400).json({ error: e.message });
   }
 };
+const MongoClient = require("mongodb").MongoClient;
 
-module.exports = { upload, saveFileName };
+const mongoClient = new MongoClient(process.env.MONGO_URL);
+
+const deleteImg = async (req, res, next) => {
+  try {
+    await mongoClient.connect();
+
+    const database = mongoClient.db("test");
+    const bucket = new GridFSBucket(database, {
+      bucketName: "uploadsImages",
+    });
+
+    const file = await database
+      .collection("uploadsImages.files")
+      .findOne({ filename: req.params.name });
+    bucket.delete(file._id);
+    next();
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+};
+
+const getImg = async (req, res) => {
+  try {
+    await mongoClient.connect();
+
+    const database = mongoClient.db("test");
+    const bucket = new GridFSBucket(database, {
+      bucketName: "uploadsImages",
+    });
+
+    let downloadStream = bucket.openDownloadStreamByName(req.params.name);
+
+    downloadStream.on("data", function (data) {
+      return res.status(200).write(data);
+    });
+
+    downloadStream.on("error", function (err) {
+      return res.status(404).send({ message: "Cannot download the Image!" });
+    });
+
+    downloadStream.on("end", () => {
+      return res.end();
+    });
+  } catch (error) {
+    return res.status(500).send({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { upload, saveFileName, getImg, deleteImg };

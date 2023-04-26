@@ -16,18 +16,20 @@ export function AuthContextProvider({ children }) {
   useEffect(() => {
     const setting = async () => {
       const user = await JSON.parse(localStorage.getItem("user"));
-
       if (!user) {
         return;
       }
-      dispatch({ type: "singup-login", payload: user });
+
+      const res = await fetch(
+        `http://localhost:4000/api/users/getUsr/${user.name}`
+      );
+      const json = await res.json();
+
+      const final = { ...json, token: user.token };
+      dispatch({ type: "singup-login", payload: final });
     };
     setting();
   }, []);
-  /*
-  useEffect(() => {
-    console.log(state.user);
-  }, [state]);*/
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
       {children}

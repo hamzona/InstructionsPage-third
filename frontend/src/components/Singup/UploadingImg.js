@@ -14,13 +14,16 @@ export default function UploadingImg() {
     const formData = new FormData();
     formData.append("img", imageFile);
 
-    const res = await fetch("http://localhost:4000/api/img/post", {
-      method: "POST",
-      headers: {
-        Authorization: `Berar ${state.user.token}`,
-      },
-      body: formData,
-    });
+    const res = await fetch(
+      `http://localhost:4000/api/img/post/${state.user.imgName}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Berar ${state.user.token}`,
+        },
+        body: formData,
+      }
+    );
 
     const json = await res.json();
     console.log(json);

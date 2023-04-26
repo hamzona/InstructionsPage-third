@@ -1,6 +1,11 @@
 const route = require("express").Router();
-const { upload, saveFileName } = require("../controllers/imgController");
+const {
+  upload,
+  saveFileName,
+  getImg,
+  deleteImg,
+} = require("../controllers/imgController");
 const auth = require("../middleware/authJwtMiddleware");
-route.post("/post", auth, upload, saveFileName);
-
+route.post("/post/:name", auth, deleteImg, upload, saveFileName);
+route.get("/getImg/:name", auth, getImg);
 module.exports = route;
