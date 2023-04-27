@@ -9,7 +9,7 @@ function InputComment() {
   const text = useRef("");
   const { singlePost, dispatch: updateSinglePost } = useSinglePostContext();
   const { state } = useAuthContext();
-  const userName = state.user.name;
+  const userName = !state.user ? null : state.user.name;
   const [rate, setRate] = useState(0);
   const { comments, dispatch: upadateComment } = useCommentContext();
 
@@ -19,8 +19,6 @@ function InputComment() {
   async function postComment(e) {
     e.preventDefault();
     if (text.current.value === "" && rate === 0) return;
-    console.log(rate);
-    console.log(singlePost._id);
     const res = await fetch("http://localhost:4000/api/comments/add", {
       method: "POST",
       headers: {
@@ -35,11 +33,11 @@ function InputComment() {
       }),
     });
     const json = await res.json();
-    console.log(json);
     if (res.ok) {
       upadateComment({ type: "add", payload: json.newComment });
       updateSinglePost({ type: "setSinglePost", payload: json.postRate });
       setRate(0);
+      window.scrollTo({ top: 400, behavior: "smooth" });
     }
     text.current.value = "";
   }
@@ -47,14 +45,12 @@ function InputComment() {
   function isRated() {
     let copy = comments;
 
-    console.log(state.user);
     copy = copy.filter((comment) => {
       if (comment.rate !== 0 && comment.userName === state.user.name) {
         return comment;
       }
     });
 
-    console.log(copy);
     return copy.length > 0;
   }
   return (
@@ -66,16 +62,17 @@ function InputComment() {
         {isRated() ? null : (
           <InputRateStars rateValue={rate} onChange={setRate} />
         )}
-
-        <input
-          className={InputCommentCss.input}
-          type="text"
-          ref={text}
-          placeholder="Comment"
-        />
-        <button className={InputCommentCss.submit} type="submit">
-          Submit
-        </button>
+        <div>
+          <input
+            className={InputCommentCss.input}
+            type="text"
+            ref={text}
+            placeholder="Comment"
+          />
+          <button className={InputCommentCss.submit} type="submit">
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );

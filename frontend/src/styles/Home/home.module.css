@@ -26,7 +26,7 @@ body {
   left: 0;
   background-color: antiquewhite;
   width: 100%;
-  height: 70px;
+  height: 100px;
   display: flex;
   flex-direction: row;
   justify-content: left;
@@ -81,4 +81,24 @@ body {
   position: absolute;
   left: 50px;
   top: 150px;
+}
+.sortBtn {
+  width: 120px;
+  height: 40px;
+  position: absolute;
+  right: 50px;
+  top: 150px;
+}
+
+.profilImg {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.profilContainer {
+  display: flex;
+  align-items: center;
+  width: 200px;
 }

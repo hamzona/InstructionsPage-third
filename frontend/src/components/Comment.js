@@ -1,6 +1,15 @@
 import React from "react";
 import CommentsCss from "../styles/comments.module.css";
+import noUserImg from "../img/user-icon-linear-user-icon-gray-background-106603311.jpg";
+
 export default function Comment({ comment }) {
+  const url = !comment.imgURL ? noUserImg : comment.imgURL;
+  const imgStyles = {
+    backgroundImage: "url(" + url + ")",
+    backgroundPosition: "center",
+    backgroundSize: `cover`,
+    backgroundRepeat: "no-repeat",
+  };
   return (
     <div className={CommentsCss.container}>
       {comment.rate && (
@@ -20,7 +29,10 @@ export default function Comment({ comment }) {
       {comment.content !== "" ? (
         <div className={CommentsCss.content}>{comment.content}</div>
       ) : null}
-      <div className={CommentsCss.userName}>{comment.userName}</div>
+      <div>
+        <div className={CommentsCss.userImage} style={imgStyles}></div>
+        <div className={CommentsCss.userName}>{comment.name}</div>
+      </div>
     </div>
   );
 }

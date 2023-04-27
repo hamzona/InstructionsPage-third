@@ -7,6 +7,8 @@ const Auth = new mongoose.Schema({
     type: String,
     required: true,
   },
+  imgName: String,
+  rate: { type: Number, required: true },
 });
 
 const model = mongoose.model("Auth", Auth);
