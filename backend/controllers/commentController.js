@@ -88,7 +88,8 @@ const getComments = async (req, res) => {
           { _id: comment.userId },
           { _id: 0, password: 0 }
         );
-        return { ...user._doc, ...comment };
+        console.log(comment._doc)
+        return { ...user._doc, ...comment._doc };
       })
     );
 

@@ -12,6 +12,10 @@ export default function Comment({ comment }) {
   };
   return (
     <div className={CommentsCss.container}>
+            <div className={CommentsCss.userContainer}>
+        <div className={CommentsCss.userImage} style={imgStyles}></div>
+        <div className={CommentsCss.userName}>{comment.name}</div>
+      </div>
       {comment.rate && (
         <div className={CommentsCss.starsCont}>
           {Array(comment.rate)
@@ -29,10 +33,7 @@ export default function Comment({ comment }) {
       {comment.content !== "" ? (
         <div className={CommentsCss.content}>{comment.content}</div>
       ) : null}
-      <div>
-        <div className={CommentsCss.userImage} style={imgStyles}></div>
-        <div className={CommentsCss.userName}>{comment.name}</div>
-      </div>
+
     </div>
   );
 }

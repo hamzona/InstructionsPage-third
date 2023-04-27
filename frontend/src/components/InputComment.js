@@ -46,7 +46,7 @@ function InputComment() {
     let copy = comments;
 
     copy = copy.filter((comment) => {
-      if (comment.rate !== 0 && comment.userName === state.user.name) {
+      if (comment.rate !== 0 && comment.name   === state.user.name) {
         return comment;
       }
     });
