@@ -38,6 +38,7 @@ const singup = async (req, res) => {
       email: email,
       password: hash,
       name: name,
+      rate: 0,
     });
     const token = await createToken(newUser._id);
 
@@ -70,5 +71,15 @@ const login = async (req, res) => {
     res.status(400).json({ error: e.message });
   }
 };
-
-module.exports = { singup, login };
+const getUser = async (req, res) => {
+  try {
+    const user = await User.findOne(
+      { name: req.params.name },
+      { _id: 0, password: 0 }
+    );
+    res.json(user);
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+};
+module.exports = { singup, login, getUser };

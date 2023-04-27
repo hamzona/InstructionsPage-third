@@ -26,7 +26,6 @@ export default function MyPosts({ item }) {
     });
 
     const json = await res.json();
-    console.log(json);
 
     if (res.ok) {
       updateMyPosts({ type: "deleteMyPost", payload: json });

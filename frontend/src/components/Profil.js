@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useMyPostsContext } from "../hooks/useMyPostsContext";
 import ProfilCss from "../styles/profil.module.css";
 import MyPosts from "./MyPosts";
+import noUserImg from "../img/user-icon-linear-user-icon-gray-background-106603311.jpg";
 
 export default function Profil() {
-  const { state, dispatch } = useAuthContext();
+  const { state, dispatch, imgUrl } = useAuthContext();
 
   const { state: myPosts } = useMyPostsContext();
   const navigate = useNavigate();
@@ -16,12 +17,23 @@ export default function Profil() {
     navigate("/");
   }
 
+  const url = !imgUrl ? noUserImg : imgUrl;
+  const imgStyles = {
+    backgroundImage: "url(" + url + ")",
+    backgroundPosition: "center",
+    backgroundSize: `cover`,
+    backgroundRepeat: "no-repeat",
+  };
+
   return (
     <div className={ProfilCss.container}>
       <div className={ProfilCss.profilContainer}>
         <Link className={ProfilCss.back} to="/">
           BACK
         </Link>
+        <Link to="/imgUpload">UploadImg</Link>
+
+        <div className={ProfilCss.profilImg} style={imgStyles} />
 
         {state.user && <div className={ProfilCss.name}> {state.user.name}</div>}
         {state.user && (

@@ -32,7 +32,6 @@ body {
 
 .userName {
   font-size: 30px;
-  border-bottom: solid 2px;
 }
 .title {
   font-size: 50px;
@@ -40,4 +39,21 @@ body {
 .starsCont {
   display: flex;
   flex-direction: row;
+}
+.star {
+  font-size: 30px;
+  color: rgb(226, 96, 35);
+}
+.userPostImg {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: solid 3px black;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.userPostContainer {
+  display: flex;
+  border-bottom: solid 3px black;
+  align-items: center;
 }

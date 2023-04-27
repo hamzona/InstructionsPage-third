@@ -1,12 +1,13 @@
 .container {
   margin-top: 100px;
   height: 300px;
-  width: 100%;
-  border: solid 2px black;
+  width: 90%;
+  border: solid 5px black;
   display: flex;
   justify-content: space-around;
   align-items: center;
   position: relative;
+  background-color: rgb(175, 183, 189);
 }
 .apply {
   height: 30px;
@@ -14,6 +15,15 @@
   position: absolute;
   bottom: 20px;
   left: 43%;
+}
+.subject {
+  font-size: 20px;
+  margin: 2px;
+}
+.checkboxSubject {
+  height: 20px;
+  width: 20px;
+  margin-left: 5px;
 }
 .reset {
   height: 30px;
@@ -24,4 +34,17 @@
 }
 .titles {
   font-size: 30px;
+}
+.PriceInputCont {
+  padding: 10px;
+}
+.labelPrice {
+  font-size: 20px;
+}
+.inputPrice {
+  font-size: 20px;
+  height: 30px;
+  width: 100px;
+  box-decoration-break: none;
+  text-align: center;
 }

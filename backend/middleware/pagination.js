@@ -14,7 +14,6 @@ const pagination = async (req, res, next) => {
     if (page > pages) {
       throw Error("Page not found");
     }
-    console.log(total);
     res.json({
       count: json.length,
       page,
