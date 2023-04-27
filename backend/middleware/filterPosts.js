@@ -1,5 +1,5 @@
 const Post = require("../models/postModel");
-
+const User = require("../models/authModel");
 const filterPosts = async (req, res, next) => {
   /*sortiranje */
   const { sortBy } = req.query;
@@ -43,7 +43,7 @@ const filterPosts = async (req, res, next) => {
   });
   console.log(max);
 
-  req.data = await Post.find({
+  const posts = await Post.find({
     $and: [
       {
         $or: [
@@ -57,6 +57,17 @@ const filterPosts = async (req, res, next) => {
       priceFilter,
     ],
   }).sort(sortOpition);
+
+  req.data = await Promise.all(
+    posts.map(async (post) => {
+      const userData = await User.findById(post.userId, {
+        _id: 0,
+        password: 0,
+      });
+      const postWuser = { ...post._doc, ...userData._doc };
+      return postWuser;
+    })
+  );
   next();
 };
 

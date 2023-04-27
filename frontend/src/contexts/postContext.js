@@ -1,5 +1,8 @@
 import { createContext, useEffect, useReducer, useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
+
 export const PostContext = createContext();
+
 function updateReducer(state, action) {
   switch (action.type) {
     case "setPosts":
@@ -17,7 +20,6 @@ export function PostContextProvider({ children }) {
   const [state, dispatch] = useReducer(updateReducer, null);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
-
   /*filters */
   const [subjects, setSubjects] = useState([]);
   const [search, setSearch] = useState(null);
@@ -56,9 +58,26 @@ export function PostContextProvider({ children }) {
         `http://localhost:4000/api/posts/allPosts?${params.toString()}`
       );
       const json = await res.json();
+
+      console.log(json);
+      const resWithImg = await Promise.all(
+        json.data.map(async (post) => {
+          if (!post.imgName) return post;
+
+          const img = await fetch(
+            `http://localhost:4000/api/img/getImgPublic/${post.imgName}`
+          );
+
+          const blob = await img.blob();
+          const imgURL = URL.createObjectURL(blob);
+
+          const imageObj = { imgURL: imgURL, ...post };
+          return imageObj;
+        })
+      );
       if (res.ok) {
         setPages(json.pages);
-        dispatch({ type: "setPosts", payload: json.data });
+        dispatch({ type: "setPosts", payload: resWithImg });
         setError(null);
       } else {
         setError(json.error);

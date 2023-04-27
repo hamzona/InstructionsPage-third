@@ -4,41 +4,23 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useMyPostsContext } from "../hooks/useMyPostsContext";
 import ProfilCss from "../styles/profil.module.css";
 import MyPosts from "./MyPosts";
+import noUserImg from "../img/user-icon-linear-user-icon-gray-background-106603311.jpg";
 
 export default function Profil() {
-  const { state, dispatch } = useAuthContext();
+  const { state, dispatch, imgUrl } = useAuthContext();
 
   const { state: myPosts } = useMyPostsContext();
-  const [imgUrl, setImgUrl] = useState(null);
   const navigate = useNavigate();
   function hendleClick() {
     localStorage.removeItem("user");
     dispatch({ type: "logout" });
     navigate("/");
   }
-  console.log(state);
-  console.log(myPosts);
 
-  useEffect(() => {
-    async function getImg() {
-      const res = await fetch(
-        `http://localhost:4000/api/img/getImg/${state.user.imgName}`,
-        {
-          headers: {
-            Authorization: `Berar ${state.user.token}`,
-          },
-        }
-      );
-      const blob = await res.blob();
-      const imgURL = URL.createObjectURL(blob);
-      console.log(imgURL);
-      setImgUrl(imgURL);
-    }
-    getImg();
-  }, [state]);
-
+  const url = !imgUrl ? noUserImg : imgUrl;
+  console.log(url);
   const imgStyles = {
-    backgroundImage: "url(" + imgUrl + ")",
+    backgroundImage: "url(" + url + ")",
     backgroundPosition: "center",
     backgroundSize: `cover`,
     backgroundRepeat: "no-repeat",
@@ -51,9 +33,9 @@ export default function Profil() {
           BACK
         </Link>
         <Link to="/imgUpload">UploadImg</Link>
-        {state.user.imgName && (
-          <div className={ProfilCss.profilImg} style={imgStyles} />
-        )}
+
+        <div className={ProfilCss.profilImg} style={imgStyles} />
+
         {state.user && <div className={ProfilCss.name}> {state.user.name}</div>}
         {state.user && (
           <div className={ProfilCss.email}>email: {state.user.email}</div>

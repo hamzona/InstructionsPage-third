@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useState, useEffect, useReducer } from "react";
 
 export const AuthContext = createContext();
 function updateReducer(state, action) {
@@ -13,6 +13,7 @@ function updateReducer(state, action) {
 }
 export function AuthContextProvider({ children }) {
   const [state, dispatch] = useReducer(updateReducer, { user: null });
+  const [imgUrl, setImgUrl] = useState(null);
   useEffect(() => {
     const setting = async () => {
       const user = await JSON.parse(localStorage.getItem("user"));
@@ -30,8 +31,32 @@ export function AuthContextProvider({ children }) {
     };
     setting();
   }, []);
+
+  useEffect(() => {
+    console.log(state.user);
+    if (state.user !== null) {
+      if (!state.user.imgName) return;
+    } else {
+      return;
+    }
+    async function getImg() {
+      const res = await fetch(
+        `http://localhost:4000/api/img/getImg/${state.user.imgName}`,
+        {
+          headers: {
+            Authorization: `Berar ${state.user.token}`,
+          },
+        }
+      );
+      const blob = await res.blob();
+      const imgURL = URL.createObjectURL(blob);
+      console.log(imgURL);
+      setImgUrl(imgURL);
+    }
+    getImg();
+  }, [state]);
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={{ state, dispatch, setImgUrl, imgUrl }}>
       {children}
     </AuthContext.Provider>
   );

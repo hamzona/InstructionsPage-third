@@ -8,17 +8,31 @@ import Pagination from "./Pagination";
 import Filter from "./Filter";
 import Search from "./Search";
 import SortMenu from "./SortMenu";
+import noUserImg from "../../img/user-icon-linear-user-icon-gray-background-106603311.jpg";
+
 function Home() {
   const { state, error } = usePostContext();
-  const { state: stateUser } = useAuthContext();
+  const { state: stateUser, imgUrl } = useAuthContext();
   const [isFilter, setIsFilter] = useState(false);
   const [isSort, setIsSort] = useState(false);
+  const url = !imgUrl ? noUserImg : imgUrl;
+  console.log(url);
+  const imgStyles = {
+    backgroundImage: "url(" + url + ")",
+    backgroundPosition: "center",
+    backgroundSize: `cover`,
+    backgroundRepeat: "no-repeat",
+  };
   return (
     <div className={HomeCss.container}>
       <div className={HomeCss.homeNav}>
         {stateUser.user !== null ? (
           <Link className={HomeCss.profilLink} to="/profil">
-            My profil: {stateUser.user.name}
+            <div className={HomeCss.profilContainer}>
+              {" "}
+              <div style={imgStyles} className={HomeCss.profilImg}></div>
+              {stateUser.user.name}
+            </div>
           </Link>
         ) : (
           <div className={HomeCss.loginSingupCont}>
