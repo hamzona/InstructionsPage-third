@@ -9,7 +9,7 @@ function InputComment() {
   const text = useRef("");
   const { singlePost, dispatch: updateSinglePost } = useSinglePostContext();
   const { state } = useAuthContext();
-  const userName = state.user.name;
+  const userName = !state.user ? null : state.user.name;
   const [rate, setRate] = useState(0);
   const { comments, dispatch: upadateComment } = useCommentContext();
 
