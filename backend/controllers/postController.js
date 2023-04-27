@@ -4,7 +4,6 @@ const addPost = async (req, res) => {
   const { title, price, description, subject, jobType } = req.body;
 
   try {
-    console.log(price);
     if (!title) {
       throw Error("Title is required");
     }

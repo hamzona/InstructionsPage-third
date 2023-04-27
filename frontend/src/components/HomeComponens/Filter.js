@@ -102,7 +102,6 @@ export default function Filter() {
         <select
           value={jobTypeF}
           onChange={(e) => {
-            console.log(e.target.value);
             setJobTypeF(e.target.value);
           }}
         >

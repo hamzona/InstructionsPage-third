@@ -40,10 +40,10 @@ const postComment = async (req, res, next) => {
     }
     /*RATE */
     rate = rate === 0 ? null : rate;
-    const newComment = await Comment.create({
+    let newComment = await Comment.create({
       content,
       postId,
-      userName,
+      userId: req.user,
       rate,
     });
 
@@ -54,13 +54,11 @@ const postComment = async (req, res, next) => {
       rate: 1,
       _id: 0,
     });
-    console.log(rates);
     let sum = 0;
     rates.forEach((rate) => {
       sum = sum + rate.rate;
     });
-    console.log(sum);
-    console.log(rates.length);
+
     const l = rates.length === 0 ? 1 : rates.length;
     sum = sum / l;
 
@@ -72,6 +70,8 @@ const postComment = async (req, res, next) => {
       { returnOriginal: false }
     );
 
+    const user = await User.findOne({ _id: req.user }, { _id: 0, password: 0 });
+    newComment = { ...user._doc, ...newComment._doc };
     res.json({ newComment, postRate });
   } catch (e) {
     res.status(400).json({ error: e.message });
@@ -79,10 +79,20 @@ const postComment = async (req, res, next) => {
 };
 const getComments = async (req, res) => {
   const { postId } = req.body;
-  console.log(postId);
   try {
-    const allComments = await Comment.find({ postId }).sort({ _id: -1 });
-    res.json(allComments);
+    let allComments = await Comment.find({ postId }).sort({ _id: -1 });
+
+    const commentsWithImages = await Promise.all(
+      allComments.map(async (comment) => {
+        const user = await User.findOne(
+          { _id: comment.userId },
+          { _id: 0, password: 0 }
+        );
+        return { ...user._doc, ...comment._doc };
+      })
+    );
+
+    res.json(commentsWithImages);
   } catch (e) {
     res.status(400).json({ error: e.message });
   }

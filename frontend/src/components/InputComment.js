@@ -19,8 +19,6 @@ function InputComment() {
   async function postComment(e) {
     e.preventDefault();
     if (text.current.value === "" && rate === 0) return;
-    console.log(rate);
-    console.log(singlePost._id);
     const res = await fetch("http://localhost:4000/api/comments/add", {
       method: "POST",
       headers: {
@@ -35,7 +33,6 @@ function InputComment() {
       }),
     });
     const json = await res.json();
-    console.log(json);
     if (res.ok) {
       upadateComment({ type: "add", payload: json.newComment });
       updateSinglePost({ type: "setSinglePost", payload: json.postRate });
@@ -48,14 +45,12 @@ function InputComment() {
   function isRated() {
     let copy = comments;
 
-    console.log(state.user);
     copy = copy.filter((comment) => {
       if (comment.rate !== 0 && comment.userName === state.user.name) {
         return comment;
       }
     });
 
-    console.log(copy);
     return copy.length > 0;
   }
   return (

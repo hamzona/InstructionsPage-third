@@ -16,7 +16,6 @@ function Home() {
   const [isFilter, setIsFilter] = useState(false);
   const [isSort, setIsSort] = useState(false);
   const url = !imgUrl ? noUserImg : imgUrl;
-  console.log(url);
   const imgStyles = {
     backgroundImage: "url(" + url + ")",
     backgroundPosition: "center",

@@ -26,11 +26,9 @@ export default function Input() {
   //POST DATA
   async function hendleSubmit(e) {
     e.preventDefault();
-    console.log(data);
     if (!state.user) {
       return;
     }
-    console.log(data);
 
     const res = await fetch("http://localhost:4000/api/posts/add", {
       method: "POST",
@@ -47,7 +45,6 @@ export default function Input() {
       }),
     });
     const json = await res.json();
-    console.log(json);
     if (!res.ok) {
       setError(json.error);
     }

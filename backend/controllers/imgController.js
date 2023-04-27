@@ -49,8 +49,6 @@ const MongoClient = require("mongodb").MongoClient;
 const mongoClient = new MongoClient(process.env.MONGO_URL);
 
 const deleteImg = async (req, res, next) => {
-  console.log(!req.params.name || req.params.name === "undefined");
-
   try {
     if (!req.params.name || req.params.name === "undefined") {
       return next();

@@ -9,7 +9,6 @@ export default function UploadingImg() {
 
   async function hendleSubmit(e) {
     e.preventDefault();
-    console.log(state);
     // Create a FormData object
     const formData = new FormData();
     formData.append("img", imageFile);
@@ -26,7 +25,6 @@ export default function UploadingImg() {
     );
 
     const json = await res.json();
-    console.log(json);
     if (res.ok) {
       dispatch({ type: "singup-login", payload: json });
       navigate("/profil");

@@ -14,6 +14,7 @@ function updateReducer(state, action) {
 export function AuthContextProvider({ children }) {
   const [state, dispatch] = useReducer(updateReducer, { user: null });
   const [imgUrl, setImgUrl] = useState(null);
+
   useEffect(() => {
     const setting = async () => {
       const user = await JSON.parse(localStorage.getItem("user"));
@@ -33,7 +34,6 @@ export function AuthContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    console.log(state.user);
     if (state.user !== null) {
       if (!state.user.imgName) return;
     } else {
@@ -50,7 +50,6 @@ export function AuthContextProvider({ children }) {
       );
       const blob = await res.blob();
       const imgURL = URL.createObjectURL(blob);
-      console.log(imgURL);
       setImgUrl(imgURL);
     }
     getImg();

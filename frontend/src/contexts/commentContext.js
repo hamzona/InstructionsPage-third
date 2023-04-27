@@ -3,7 +3,6 @@ import useSinglePostContext from "../hooks/useSinglePostContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 export const CommentContext = createContext();
 function updateReducer(state, action) {
-  console.log(action.payload);
   switch (action.type) {
     case "setComments":
       return action.payload;
@@ -33,12 +32,30 @@ export function CommentContextProvider({ children }) {
       });
       const json = await res.json();
 
+      const commentsWithImg = await Promise.all(
+        json.map(async (comment) => {
+          if (!comment.imgName) return comment;
+
+          const img = await fetch(
+            `http://localhost:4000/api/img/getImgPublic/${comment.imgName}`
+          );
+
+          const blob = await img.blob();
+          const imgURL = URL.createObjectURL(blob);
+
+          const imageObj = { imgURL: imgURL, ...comment };
+          return imageObj;
+        })
+      );
+      console.log(commentsWithImg);
       if (res.ok) {
-        dispatch({ type: "setComments", payload: json });
+        dispatch({ type: "setComments", payload: commentsWithImg });
       }
     }
     getData();
   }, [singlePost]);
+
+  useEffect(() => {}, []);
   return (
     <CommentContext.Provider value={{ comments, dispatch }}>
       {children}

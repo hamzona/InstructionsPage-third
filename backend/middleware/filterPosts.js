@@ -16,7 +16,6 @@ const filterPosts = async (req, res, next) => {
   let max = parseFloat(req.query.max);
   let min = parseFloat(req.query.min);
   let setPrice = false;
-  console.log(!(!max && !min));
   if (!(!max && !min)) {
     setPrice = true;
   }
@@ -34,14 +33,12 @@ const filterPosts = async (req, res, next) => {
         ],
       }
     : {};
-  console.log(priceFilter);
   let filters = {};
   Object.keys(req.query).forEach((item) => {
     if (item === "subject" || item === "jobType") {
       filters[item] = req.query[item];
     }
   });
-  console.log(max);
 
   const posts = await Post.find({
     $and: [

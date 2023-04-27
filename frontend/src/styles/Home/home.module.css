@@ -26,7 +26,7 @@ body {
   left: 0;
   background-color: antiquewhite;
   width: 100%;
-  height: 70px;
+  height: 100px;
   display: flex;
   flex-direction: row;
   justify-content: left;
@@ -94,10 +94,11 @@ body {
   width: 75px;
   height: 75px;
   border-radius: 50%;
-  padding-left: 15px;
+  margin-right: 15px;
 }
 
 .profilContainer {
   display: flex;
   align-items: center;
+  width: 200px;
 }
