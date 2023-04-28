@@ -11,6 +11,7 @@ export default function HomePosts({ item }) {
     dispatch({ type: "setSinglePost", payload: item });
     // navigate("/singlePost");
   }
+  console.log(item);
   const url = !item.imgURL ? noUserImg : item.imgURL;
   const imgStyles = {
     backgroundImage: "url(" + url + ")",
@@ -26,7 +27,7 @@ export default function HomePosts({ item }) {
       }}
     >
       <div className={HomePostsCss.userPostContainer}>
-        <div  className={HomePostsCss.userPostImg} style={imgStyles}></div>
+        <div className={HomePostsCss.userPostImg} style={imgStyles}></div>
         <div className={HomePostsCss.userName}>{item.userName}</div>
       </div>
 

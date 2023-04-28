@@ -61,7 +61,8 @@ const postComment = async (req, res, next) => {
 
     const l = rates.length === 0 ? 1 : rates.length;
     sum = sum / l;
-
+    sum.toFixed(2);
+    console.log(sum);
     var postRate = await Post.findOneAndUpdate(
       {
         _id: postId,
@@ -88,7 +89,6 @@ const getComments = async (req, res) => {
           { _id: comment.userId },
           { _id: 0, password: 0 }
         );
-        console.log(comment._doc)
         return { ...user._doc, ...comment._doc };
       })
     );

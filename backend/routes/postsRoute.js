@@ -5,6 +5,7 @@ const {
   deletePost,
   updatePost,
   getAllMyPosts,
+  saveMultipleFileNames,
 } = require("../controllers/postController");
 
 //middleware

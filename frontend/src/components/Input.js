@@ -11,6 +11,9 @@ export default function Input() {
   const { state } = useAuthContext();
   const { dispatch: updatePosts } = usePostContext();
   const { dispatch: updateMyPosts } = useMyPostsContext();
+
+  const [images, setImages] = useState([]);
+
   const navigate = useNavigate();
 
   const subjectsConst = [
@@ -45,14 +48,35 @@ export default function Input() {
       }),
     });
     const json = await res.json();
-    if (!res.ok) {
-      setError(json.error);
-    }
+
     if (res.ok) {
-      updatePosts({ type: "addPost", payload: json });
-      updateMyPosts({ type: "addMyPost", payload: json });
+      const formData = new FormData();
+      const fileList = Array.from(images);
+      fileList.forEach((image) => {
+        formData.append("imgs", image);
+      });
+
+      const resWithImgs = await fetch(
+        `http://localhost:4000/api/img/postMultiple/${json._id}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Berar ${state.user.token}`,
+          },
+          body: formData,
+        }
+      );
+      var jsonWithImgs = await resWithImgs.json();
+      console.log(jsonWithImgs);
+    }
+
+    if (res.ok) {
+      updatePosts({ type: "addPost", payload: jsonWithImgs });
+      updateMyPosts({ type: "addMyPost", payload: jsonWithImgs });
       setData("");
       navigate("/profil");
+    } else {
+      setError(json.error);
     }
   }
 
@@ -62,6 +86,11 @@ export default function Input() {
     copy[e.target.id] = e.target.value;
     setData(copy);
   }
+
+  function imageChange(e) {
+    setImages(e.target.files);
+  }
+  console.log(images);
   return (
     <div className={InputCss.container}>
       <Link className={InputCss.back} to="/profil">
@@ -80,7 +109,7 @@ export default function Input() {
             Title:*{" "}
           </label>
           <input
-          max={20}
+            max={20}
             className={InputCss.input}
             type="text"
             id="title"
@@ -162,6 +191,19 @@ export default function Input() {
             <option value="homework">homework</option>
             <option value="instruction">instruction</option>
           </select>
+        </div>
+
+        <div>
+          <label htmlFor="images" className={InputCss.label}>
+            Images:
+          </label>
+          <input
+            multiple={true}
+            type="file"
+            onChange={(e) => {
+              imageChange(e);
+            }}
+          />
         </div>
         <button className={InputCss.button} type="submit">
           submit

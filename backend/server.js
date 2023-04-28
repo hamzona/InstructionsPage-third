@@ -17,7 +17,7 @@ const imgRoute = require("./routes/imgRoute");
 app.use("/api/posts", postsRoute);
 app.use("/api/users", authRoute);
 app.use("/api/comments", commentRoute);
-app.use("/api/img", imgRoute);    
+app.use("/api/img", imgRoute);
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,

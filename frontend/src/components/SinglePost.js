@@ -22,6 +22,7 @@ export default function SinglePost() {
     backgroundSize: `cover`,
     backgroundRepeat: "no-repeat",
   };
+  console.log(singlePost);
   return (
     <div className={SinglePostCss.container}>
       <button
@@ -65,7 +66,7 @@ export default function SinglePost() {
             Price: {singlePost.price} KM
           </div>
         )}
-    {singlePost.rate && <div>{singlePost.rate}</div>}
+        {singlePost.rate && <div>{singlePost.rate}</div>}
         <DatePost date={singlePost.date} />
       </div>
       <InputCommnet />

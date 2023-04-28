@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const User = require("../models/authModel");
+const Post = require("../models/postModel");
 const multer = require("multer");
 const Grid = require("gridfs-stream");
 const { GridFsStorage } = require("multer-gridfs-storage");
@@ -24,8 +25,8 @@ const storage = new GridFsStorage({
   },
 });
 
-const upload = multer({ storage }).single("img");
-
+const uploadSingle = multer({ storage }).single("img");
+const uploadMultiple = multer({ storage }).array("imgs");
 const saveFileName = async (req, res) => {
   if (!req.file.filename) {
     const user = await User.findById({ _id: req.user });
@@ -40,6 +41,29 @@ const saveFileName = async (req, res) => {
     const token = { token: req.jwt };
     updateUser = { ...updateUser._doc, ...token };
     res.json(updateUser);
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+};
+
+const saveMultipleFileNames = async (req, res) => {
+  const fileNames = req.files.map((file) => {
+    return file.filename;
+  });
+  console.log(fileNames);
+  try {
+    const post = await Post.findByIdAndUpdate(
+      { _id: req.params.postId },
+      {
+        $set: {
+          postImgs: fileNames,
+        },
+      },
+      {
+        returnOriginal: false,
+      }
+    );
+    res.json(post);
   } catch (e) {
     res.status(400).json({ error: e.message });
   }
@@ -99,4 +123,48 @@ const getImg = async (req, res) => {
   }
 };
 
-module.exports = { upload, saveFileName, getImg, deleteImg };
+const getImgs = async (req, res) => {
+  const { names } = req.params;
+  console.log(names);
+  names = Array.from(names);
+  try {
+    await mongoClient.connect();
+
+    const database = mongoClient.db("test");
+    const bucket = new GridFSBucket(database, {
+      bucketName: "uploadsImages",
+    });
+
+    names.forEach((name) => {
+      let downloadStream = bucket.openDownloadStreamByName(name);
+
+      downloadStream.on("data", function (data) {
+        return res.status(200).write(data);
+      });
+
+      downloadStream.on("error", function (err) {
+        return res.status(404).send({ message: "Cannot download the Image!" });
+      });
+
+      downloadStream.on("end", () => {
+        return res.end();
+      });
+    });
+  } catch (error) {
+    return res.status(500).send({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = {
+  uploadMultiple,
+  uploadSingle,
+  saveFileName,
+  getImg,
+
+  getImgs,
+  deleteImg,
+
+  saveMultipleFileNames,
+};

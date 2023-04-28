@@ -1,5 +1,4 @@
 import { createContext, useEffect, useReducer, useState } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
 
 export const PostContext = createContext();
 
@@ -83,18 +82,13 @@ if(res.ok){
   );
 }
       
-  
       if (res.ok) {
-
-
-
         setPages(json.pages);
         dispatch({ type: "setPosts", payload: resWithImg });
         setError(null);
       } else {
         setError(json.error);
         setPages(0);
-
       }
 
       setIsLoadingPosts(false);

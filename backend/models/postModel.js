@@ -11,6 +11,7 @@ const Post = new mongoose.Schema({
   rate: { type: Number, required: true },
   date: { type: Date, required: true },
   userImg: { type: String },
+  postImgs: { type: Array },
 });
 
 const model = mongoose.model("posts", Post);
