@@ -9,9 +9,10 @@ import Filter from "./Filter";
 import Search from "./Search";
 import SortMenu from "./SortMenu";
 import noUserImg from "../../img/user-icon-linear-user-icon-gray-background-106603311.jpg";
+import Loading from "../../animation/Loading.js"
 
 function Home() {
-  const { state, error } = usePostContext();
+  const { state, error,isLoadingPosts } = usePostContext();
   const { state: stateUser, imgUrl } = useAuthContext();
   const [isFilter, setIsFilter] = useState(false);
   const [isSort, setIsSort] = useState(false);
@@ -58,6 +59,8 @@ function Home() {
         Filter
       </button>
       {isFilter ? <Filter /> : null}
+      
+      
       <button
         className={HomeCss.sortBtn}
         onClick={() => setIsSort((prev) => !prev)}
@@ -65,6 +68,8 @@ function Home() {
         SORT
       </button>
       {isSort ? <SortMenu /> : null}
+
+ {isLoadingPosts?<Loading/>:
       <div className={HomeCss.posts}>
         {error ? (
           <div>Error:{error}</div>
@@ -74,7 +79,7 @@ function Home() {
             return <HomePosts key={item._id} item={item} />;
           })
         )}
-      </div>
+      </div>}
 
       <Pagination />
     </div>

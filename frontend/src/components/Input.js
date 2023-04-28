@@ -80,6 +80,7 @@ export default function Input() {
             Title:*{" "}
           </label>
           <input
+          max={20}
             className={InputCss.input}
             type="text"
             id="title"

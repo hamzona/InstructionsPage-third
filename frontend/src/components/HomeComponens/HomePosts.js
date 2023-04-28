@@ -26,7 +26,7 @@ export default function HomePosts({ item }) {
       }}
     >
       <div className={HomePostsCss.userPostContainer}>
-        <div className={HomePostsCss.userPostImg} style={imgStyles}></div>
+        <div  className={HomePostsCss.userPostImg} style={imgStyles}></div>
         <div className={HomePostsCss.userName}>{item.userName}</div>
       </div>
 
