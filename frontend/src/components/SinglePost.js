@@ -30,7 +30,7 @@ export default function SinglePost() {
           hendleClick();
         }}
       >
-        CANCLE
+        CANCEL
       </button>
 
       <div className={SinglePostCss.postContainer}>
@@ -56,7 +56,7 @@ export default function SinglePost() {
         )}
         {singlePost.description && (
           <div className={SinglePostCss.description}>
-            <p>Description</p>
+            <p>DESCRIPTION</p>
             {singlePost.description}
           </div>
         )}
@@ -65,7 +65,7 @@ export default function SinglePost() {
             Price: {singlePost.price} KM
           </div>
         )}
-        {singlePost.rate && <div>{singlePost.rate}</div>}
+    {singlePost.rate && <div>{singlePost.rate}</div>}
         <DatePost date={singlePost.date} />
       </div>
       <InputCommnet />
