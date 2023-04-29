@@ -122,11 +122,11 @@ const getImg = async (req, res) => {
     });
   }
 };
-
+/*
 const getImgs = async (req, res) => {
-  const { names } = req.params;
+  const { names } = req.query;
   console.log(names);
-  names = Array.from(names);
+  // names = Array.from(names);
   try {
     await mongoClient.connect();
 
@@ -156,14 +156,13 @@ const getImgs = async (req, res) => {
     });
   }
 };
-
+*/
 module.exports = {
   uploadMultiple,
   uploadSingle,
   saveFileName,
   getImg,
 
-  getImgs,
   deleteImg,
 
   saveMultipleFileNames,

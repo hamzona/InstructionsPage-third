@@ -3,6 +3,7 @@ import HomePostsCss from "../../styles/Home/homePosts.module.css";
 import useSinglePostContext from "../../hooks/useSinglePostContext";
 import DatePost from "./DatePost";
 import noUserImg from "../../img/user-icon-linear-user-icon-gray-background-106603311.jpg";
+import noPostImg from "../../img/no-image.jpg";
 //import { useNavigate } from "react-router-dom";
 export default function HomePosts({ item }) {
   const { dispatch } = useSinglePostContext();
@@ -11,10 +12,19 @@ export default function HomePosts({ item }) {
     dispatch({ type: "setSinglePost", payload: item });
     // navigate("/singlePost");
   }
-  console.log(item);
   const url = !item.imgURL ? noUserImg : item.imgURL;
   const imgStyles = {
     backgroundImage: "url(" + url + ")",
+    backgroundPosition: "center",
+    backgroundSize: `cover`,
+    backgroundRepeat: "no-repeat",
+  };
+  console.log(Array.from(item.postImgs).length);
+
+  const urlPost =
+    Array.from(item.postImgs).length === 0 ? noPostImg : item.postUrls[0];
+  const imgPostStyles = {
+    backgroundImage: "url(" + urlPost + ")",
     backgroundPosition: "center",
     backgroundSize: `cover`,
     backgroundRepeat: "no-repeat",
@@ -26,12 +36,15 @@ export default function HomePosts({ item }) {
         hendleClick();
       }}
     >
+      <div className={HomePostsCss.postImg} style={imgPostStyles}></div>
+
       <div className={HomePostsCss.userPostContainer}>
         <div className={HomePostsCss.userPostImg} style={imgStyles}></div>
         <div className={HomePostsCss.userName}>{item.userName}</div>
       </div>
 
       <div className={HomePostsCss.title}>{item.title}</div>
+
       {item.description && <div>description: {item.description}</div>}
       {item.subject && <div>subject: {item.subject}</div>}
       {item.jobType && <div>job: {item.jobType}</div>}

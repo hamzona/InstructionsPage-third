@@ -12,7 +12,6 @@ const auth = require("../middleware/authJwtMiddleware");
 route.post("/post/:name", auth, deleteImg, uploadSingle, saveFileName);
 route.get("/getImg/:name", auth, getImg);
 route.get("/getImgPublic/:name", getImg);
-route.get("/getImgsPublic/:names", getImgs);
 route.post(
   "/postMultiple/:postId",
   auth,

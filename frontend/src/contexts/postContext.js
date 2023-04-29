@@ -62,29 +62,45 @@ export function PostContextProvider({ children }) {
       const json = await res.json();
 
       console.log(json);
-     
+      let finalResponse;
+      if (res.ok) {
+        finalResponse = await Promise.all(
+          json.data.map(async (post) => {
+            if (!post.imgName) return post;
 
-if(res.ok){
-  var resWithImg = await Promise.all(
-    json.data.map(async (post) => {
-      if (!post.imgName) return post;
+            const img = await fetch(
+              `http://localhost:4000/api/img/getImgPublic/${post.imgName}`
+            );
 
-      const img = await fetch(
-        `http://localhost:4000/api/img/getImgPublic/${post.imgName}`
-      );
+            const blob = await img.blob();
+            const imgURL = URL.createObjectURL(blob);
 
-      const blob = await img.blob();
-      const imgURL = URL.createObjectURL(blob);
+            const imageObj = { imgURL: imgURL, ...post };
+            return imageObj;
+          })
+        );
 
-      const imageObj = { imgURL: imgURL, ...post };
-      return imageObj;
-    })
-  );
-}
-      
+        finalResponse.forEach(async (post) => {
+          if (!post.postImgs || post.postImgs.length === 0) return post;
+          post.postUrls = [];
+
+          post.postImgs.forEach(async (postImg) => {
+            const img = await fetch(
+              `http://localhost:4000/api/img/getImgPublic/${postImg}`
+            );
+
+            const blob = await img.blob();
+            const imgURL = URL.createObjectURL(blob);
+            await post.postUrls.push(imgURL);
+          });
+        });
+
+        console.log(finalResponse);
+      }
+
       if (res.ok) {
         setPages(json.pages);
-        dispatch({ type: "setPosts", payload: resWithImg });
+        dispatch({ type: "setPosts", payload: finalResponse });
         setError(null);
       } else {
         setError(json.error);
@@ -92,7 +108,6 @@ if(res.ok){
       }
 
       setIsLoadingPosts(false);
-
     };
     getAllPosts();
   }, [page, search, subjects, minPrice, maxPrice, jobType, sortBy]);
