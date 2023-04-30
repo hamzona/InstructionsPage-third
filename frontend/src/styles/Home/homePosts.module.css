@@ -11,10 +11,9 @@ body {
 }
 
 .container {
-  /* background-color: rgb(72, 83, 148); */
   cursor: pointer;
   padding: 20px;
-  height: 300px;
+  height: 400px;
   width: 400px;
   font-size: 20px;
   border: solid 2px black;
@@ -25,40 +24,61 @@ body {
   word-wrap: break-word;
 }
 
-.container:hover {
-  background-color: rgb(160, 160, 160);
-  transition: 0.1s ease-in;
-}
-
 .userName {
-  font-size: 30px;
+  font-size: 20px;
 }
 .title {
   font-size: 50px;
+  text-align: center;
 }
 .starsCont {
+  position: absolute;
+  bottom: 10px;
+  left: 30px;
   display: flex;
   flex-direction: row;
 }
 .star {
-  font-size: 30px;
+  font-size: 20px;
   color: rgb(226, 96, 35);
 }
 .userPostImg {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   border: solid 3px black;
   margin-right: 10px;
   margin-bottom: 5px;
 }
 .userPostContainer {
+  position: absolute;
+  bottom: 50px;
   display: flex;
-  border-bottom: solid 3px black;
   align-items: center;
 }
 
 .postImg {
   width: 100%;
-  height: 150px;
+  height: 200px;
+}
+
+@media (min-width: 1560px) {
+  .container {
+    cursor: pointer;
+    padding: 20px;
+    height: 400px;
+    width: 350px;
+    font-size: 20px;
+    border: solid 2px black;
+    border-radius: 10px;
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    word-wrap: break-word;
+  }
+  .title {
+    margin-top: 10px;
+    font-size: 35px;
+    text-align: center;
+  }
 }

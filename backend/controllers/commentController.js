@@ -58,17 +58,16 @@ const getComments = async (req, res) => {
   const { postId } = req.body;
   try {
     let allComments = await Comment.find({ postId }).sort({ _id: -1 });
-
     const commentsWithImages = await Promise.all(
       allComments.map(async (comment) => {
         const user = await User.findOne(
           { _id: comment.userId },
           { _id: 0, password: 0 }
         );
-        return { ...user._doc, ...comment._doc };
+        const userAndComment = { ...user._doc, ...comment._doc };
+        return userAndComment;
       })
     );
-
     res.json(commentsWithImages);
   } catch (e) {
     res.status(400).json({ error: e.message });

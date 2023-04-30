@@ -37,17 +37,13 @@ export default function HomePosts({ item }) {
     >
       <div className={HomePostsCss.postImg} style={imgPostStyles}></div>
 
+      <div className={HomePostsCss.title}>{item.title}</div>
+
       <div className={HomePostsCss.userPostContainer}>
         <div className={HomePostsCss.userPostImg} style={imgStyles}></div>
         <div className={HomePostsCss.userName}>{item.userName}</div>
       </div>
 
-      <div className={HomePostsCss.title}>{item.title}</div>
-
-      {item.description && <div>description: {item.description}</div>}
-      {item.subject && <div>subject: {item.subject}</div>}
-      {item.jobType && <div>job: {item.jobType}</div>}
-      {item.price && <div>price: {item.price} KM</div>}
       {item.rate === 0 || !item.rate ? null : (
         <div className={HomePostsCss.starsCont}>
           {Array(parseInt(item.rate))
@@ -62,7 +58,6 @@ export default function HomePosts({ item }) {
             })}{" "}
         </div>
       )}
-
       {!item.date ? null : <DatePost date={item.date} />}
     </div>
   );

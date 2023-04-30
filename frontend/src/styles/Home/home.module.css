@@ -102,3 +102,14 @@ body {
   align-items: center;
   width: 200px;
 }
+
+@media only screen and (min-width: 1560px) {
+  .posts {
+    height: 100%;
+    margin: 100px;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 20px;
+    padding: 20px;
+  }
+}
