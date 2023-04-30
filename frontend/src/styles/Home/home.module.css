@@ -100,7 +100,7 @@ body {
 .profilContainer {
   display: flex;
   align-items: center;
-  width: 200px;
+  width: 400px;
 }
 
 @media only screen and (min-width: 1560px) {
