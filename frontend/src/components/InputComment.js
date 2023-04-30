@@ -37,9 +37,29 @@ function InputComment() {
       }),
     });
     const json = await res.json();
+    console.log(json.postRate);
+
+    let postWithComment = json.postRate;
+
+    if (res.ok) {
+      if (!postWithComment.postImgs || postWithComment.postImgs.length === 0)
+        return;
+      postWithComment.postUrls = [];
+
+      postWithComment.postImgs.forEach(async (postImg) => {
+        const img = await fetch(
+          `http://localhost:4000/api/img/getImgPublic/${postImg}`
+        );
+
+        const blob = await img.blob();
+        const imgURL = URL.createObjectURL(blob);
+        await postWithComment.postUrls.push(imgURL);
+      });
+    }
+
     if (res.ok) {
       upadateComment({ type: "add", payload: json.newComment });
-      updateSinglePost({ type: "setSinglePost", payload: json.postRate });
+      updateSinglePost({ type: "setSinglePost", payload: postWithComment });
       setRate(0);
       window.scrollTo({ top: 400, behavior: "smooth" });
     }

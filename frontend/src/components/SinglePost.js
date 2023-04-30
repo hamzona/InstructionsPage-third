@@ -22,12 +22,11 @@ export default function SinglePost() {
     backgroundSize: `cover`,
     backgroundRepeat: "no-repeat",
   };
-
+  console.log(singlePost);
   const PostImgURL =
-    Array.from(singlePost.postImgs).length === 0
+    Array.from(singlePost.postUrls).length === 0
       ? noPostImg
       : singlePost.postUrls[imgIndex];
-
   const imgPostStyles = {
     backgroundImage: "url(" + PostImgURL + ")",
     backgroundPosition: "center",
@@ -47,7 +46,6 @@ export default function SinglePost() {
       setImgIndex((prev) => ++prev);
     }
   }
-  console.log(singlePost);
   return (
     <div className={SinglePostCss.container}>
       <button
@@ -70,7 +68,9 @@ export default function SinglePost() {
           )}
         </div>
         <div className={SinglePostCss.postImgContainer}>
-          {Array.from(singlePost.postImgs).length === 0 ? null : (
+          {!singlePost ? null : (Array.from(singlePost.postImgs).length ===
+              0) ===
+            0 ? null : (
             <button
               className={SinglePostCss.postImgButton}
               onClick={() => {
@@ -81,16 +81,9 @@ export default function SinglePost() {
             </button>
           )}
           <div className={SinglePostCss.postImgs} style={imgPostStyles}></div>
-          {/* <img
-            className={SinglePostCss.postImgs}
-            src={
-              !singlePost || Array.from(singlePost.postImgs).length === 0
-                ? noPostImg
-                : singlePost.postUrls[imgIndex]
-            }
-            alt=""
-          /> */}
-          {Array.from(singlePost.postImgs).length === 0 ? null : (
+
+          {!singlePost ? null : Array.from(singlePost.postImgs).length ===
+            0 ? null : (
             <button
               className={SinglePostCss.postImgButton}
               onClick={() => {
