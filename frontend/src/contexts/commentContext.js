@@ -26,14 +26,12 @@ export function CommentContextProvider({ children }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Berar ${state.user.token}`,
         },
         body: JSON.stringify({ postId: singlePost._id }),
       });
       const json = await res.json();
-console.log(json)
+      console.log(json);
       const commentsWithImg = await Promise.all(
-        
         json.map(async (comment) => {
           if (!comment.imgName) return comment;
 

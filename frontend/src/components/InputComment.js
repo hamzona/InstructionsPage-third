@@ -4,7 +4,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import useCommentContext from "../hooks/useCommentContext";
 import InputCommentCss from "../styles/inputComment.module.css";
 import InputRateStars from "./InputRateStars";
-
+import { useNavigate } from "react-router-dom";
 function InputComment() {
   const text = useRef("");
   const { singlePost, dispatch: updateSinglePost } = useSinglePostContext();
@@ -12,13 +12,17 @@ function InputComment() {
   const userName = !state.user ? null : state.user.name;
   const [rate, setRate] = useState(0);
   const { comments, dispatch: upadateComment } = useCommentContext();
-
+  const navigate = useNavigate();
   useEffect(() => {
     setRate(0);
   }, [singlePost]);
   async function postComment(e) {
     e.preventDefault();
     if (text.current.value === "" && rate === 0) return;
+    if (!state.user) {
+      return navigate("/login");
+    }
+
     const res = await fetch("http://localhost:4000/api/comments/add", {
       method: "POST",
       headers: {
@@ -46,7 +50,7 @@ function InputComment() {
     let copy = comments;
 
     copy = copy.filter((comment) => {
-      if (comment.rate !== 0 && comment.name   === state.user.name) {
+      if (comment.rate !== 0 && comment.name === state.user.name) {
         return comment;
       }
     });

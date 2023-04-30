@@ -9,6 +9,6 @@ const {
   updateUser,*/,
 } = require("../controllers/commentController");
 route.post("/add", auth, postComment /* updatePost, updateUser*/);
-route.post("/all", auth, getComments);
+route.post("/all", getComments);
 route.delete("/delete", deleteComment);
 module.exports = route;

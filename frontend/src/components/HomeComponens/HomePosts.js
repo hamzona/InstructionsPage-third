@@ -19,7 +19,6 @@ export default function HomePosts({ item }) {
     backgroundSize: `cover`,
     backgroundRepeat: "no-repeat",
   };
-  console.log(Array.from(item.postImgs).length);
 
   const urlPost =
     Array.from(item.postImgs).length === 0 ? noPostImg : item.postUrls[0];

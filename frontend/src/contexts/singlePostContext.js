@@ -11,7 +11,6 @@ function updateReducer(state, action) {
 }
 export function SinglePostProvider({ children }) {
   const [singlePost, dispatch] = useReducer(updateReducer, null);
-  //  console.log(singlePost);
 
   const [imgUrl, setImgUrl] = useState(null);
 

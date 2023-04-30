@@ -18,7 +18,6 @@ route.post(
   uploadMultiple,
   saveMultipleFileNames,
   (req, res) => {
-    console.log(req.params.postId);
     res.json(req.files);
   }
 );

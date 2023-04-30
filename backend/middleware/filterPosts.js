@@ -54,7 +54,6 @@ const filterPosts = async (req, res, next) => {
       priceFilter,
     ],
   }).sort(sortOpition);
-  console.log(posts);
   req.data = await Promise.all(
     posts.map(async (post) => {
       const userData = await User.findById(post.userId, {
@@ -65,7 +64,6 @@ const filterPosts = async (req, res, next) => {
       return postWuser;
     })
   );
-  console.log(req.data);
   next();
 };
 

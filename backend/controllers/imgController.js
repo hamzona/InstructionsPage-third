@@ -50,7 +50,6 @@ const saveMultipleFileNames = async (req, res) => {
   const fileNames = req.files.map((file) => {
     return file.filename;
   });
-  console.log(fileNames);
   try {
     const post = await Post.findByIdAndUpdate(
       { _id: req.params.postId },

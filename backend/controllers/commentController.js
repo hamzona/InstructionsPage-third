@@ -1,30 +1,6 @@
 const Comment = require("../models/commentModel");
 const Post = require("../models/postModel");
 const User = require("../models/authModel");
-/*const updatePost = async (res, req, next) => {
-  try {
-
-    console.log(postRate);
-
-    req.postRate = postRate;
-    next();
-  } catch (e) {
-    res.status(400).json({ error: e.message });
-  }
-};
-*/
-/*
-const updateUser = async (req, res, next) => {
-  try {
-    const postsRates = await Post.find();
-
-    const newComment = req.newComment;
-    const postRate = req.postRate;
-    res.json({ newComment, postRate });
-  } catch (e) {
-    res.status(400).json({ error: e.message });
-  }
-};*/
 
 const postComment = async (req, res, next) => {
   const { content, postId, userName } = req.body;
