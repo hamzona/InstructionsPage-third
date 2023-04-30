@@ -18,7 +18,6 @@ body {
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  background-image: url("../img/abstract-green-background-green-and-white-simple-and-clean-background-vector.jpg");
   background-attachment: fixed;
 }
 
@@ -112,7 +111,8 @@ body {
   box-shadow: 0px 0px 2px 3px;
   margin: 0;
   width: 800px;
-  height: 1000px;
+  height: fit-content;
+  min-height: 1200px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -124,4 +124,19 @@ body {
   margin-top: 200px;
   margin-bottom: 200px;
   background-color: white;
+}
+
+.selectedImagesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  border: solid 2px black;
+  padding: 20px;
+  margin: 20px;
+  margin-bottom: 100px;
+}
+.selectedImage {
+  height: 100px;
+  width: 200px;
+  padding: 10px;
+  margin: 10px 0px;
 }

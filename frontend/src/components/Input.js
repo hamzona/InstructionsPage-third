@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { usePostContext } from "../hooks/usePostContext";
 import { useMyPostsContext } from "../hooks/useMyPostsContext";
@@ -13,7 +13,7 @@ export default function Input() {
   const { dispatch: updateMyPosts } = useMyPostsContext();
 
   const [images, setImages] = useState([]);
-
+  const [selectedImages, setSelectedImages] = useState([]);
   const navigate = useNavigate();
 
   const subjectsConst = [
@@ -26,6 +26,7 @@ export default function Input() {
     "muzicki",
     "informatika",
   ];
+
   //POST DATA
   async function hendleSubmit(e) {
     e.preventDefault();
@@ -71,7 +72,6 @@ export default function Input() {
     }
 
     if (res.ok) {
-      updatePosts({ type: "addPost", payload: jsonWithImgs });
       updateMyPosts({ type: "addMyPost", payload: jsonWithImgs });
       setData("");
       navigate("/profil");
@@ -89,8 +89,22 @@ export default function Input() {
 
   function imageChange(e) {
     setImages(e.target.files);
+
+    const selectedFilesCopy = [];
+    const files = e.target.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        selectedFilesCopy.push(reader.result);
+        if (selectedFilesCopy.length === files.length) {
+          setSelectedImages(selectedFilesCopy);
+        }
+      };
+    }
   }
-  console.log(images);
+  console.log(Array.from(images));
   return (
     <div className={InputCss.container}>
       <Link className={InputCss.back} to="/profil">
@@ -204,6 +218,22 @@ export default function Input() {
               imageChange(e);
             }}
           />
+        </div>
+
+        <div className={InputCss.selectedImagesContainer}>
+          {selectedImages.map((image) => {
+            return (
+              <div
+                className={InputCss.selectedImage}
+                style={{
+                  backgroundImage: "url(" + image + ")",
+                  backgroundPosition: "center",
+                  backgroundSize: `contain`,
+                  backgroundRepeat: "no-repeat",
+                }}
+              ></div>
+            );
+          })}
         </div>
         <button className={InputCss.button} type="submit">
           submit
