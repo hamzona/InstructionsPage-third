@@ -12,7 +12,16 @@ import noUserImg from "../../img/user-icon-linear-user-icon-gray-background-1066
 import Loading from "../animation/Loading.js";
 
 function Home() {
-  const { state, error, isLoadingPosts } = usePostContext();
+  const {
+    state,
+    error,
+    isLoadingPosts,
+    setPage,
+    setSubjects,
+    setMinPrice,
+    setMaxPrice,
+    setJobType,
+  } = usePostContext();
   const { state: stateUser, imgUrl } = useAuthContext();
   const [isFilter, setIsFilter] = useState(false);
   const [isSort, setIsSort] = useState(false);
@@ -23,6 +32,14 @@ function Home() {
     backgroundSize: `cover`,
     backgroundRepeat: "no-repeat",
   };
+
+  function resetFilter() {
+    setPage(1);
+    setSubjects([]);
+    setMinPrice(null);
+    setMaxPrice(null);
+    setJobType(null);
+  }
   return (
     <div className={HomeCss.container}>
       <div className={HomeCss.homeNav}>
@@ -58,7 +75,17 @@ function Home() {
       >
         Filter
       </button>
-      {isFilter ? <Filter /> : null}
+
+      <button
+        className={HomeCss.resetFilterBtn}
+        onClick={() => {
+          resetFilter();
+        }}
+      >
+        RESET FILTER
+      </button>
+
+      {isFilter ? <Filter setIsFilter={setIsFilter} /> : null}
 
       <button
         className={HomeCss.sortBtn}

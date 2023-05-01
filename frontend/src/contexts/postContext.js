@@ -19,9 +19,11 @@ export function PostContextProvider({ children }) {
   const [state, dispatch] = useReducer(updateReducer, null);
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
+
+  /*search */
+  const [search, setSearch] = useState(null);
   /*filters */
   const [subjects, setSubjects] = useState([]);
-  const [search, setSearch] = useState(null);
   const [minPrice, setMinPrice] = useState(null);
   const [maxPrice, setMaxPrice] = useState(null);
   const [jobType, setJobType] = useState(null);

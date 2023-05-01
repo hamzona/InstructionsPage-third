@@ -1,14 +1,43 @@
+.shadowSpace {
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: rgb(0, 0, 0, 0.7);
+}
+.cancle {
+  position: fixed;
+  top: 50px;
+  right: 100px;
+  font-size: 30px;
+  color: white;
+}
+
+.cancle:hover {
+  cursor: pointer;
+}
+.buttonsContainer {
+  transform: translate(0, -50%);
+}
 .container {
-  margin-top: 100px;
-  height: 300px;
-  width: 90%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  height: 650px;
+  width: 700px;
   border: solid 5px black;
+  border-radius: 20px;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  position: relative;
-  background-color: rgb(175, 183, 189);
+  background-color: rgb(236, 235, 235);
 }
+
 .apply {
   height: 30px;
   width: 120px;
@@ -33,7 +62,7 @@
   right: 43%;
 }
 .titles {
-  font-size: 30px;
+  font-size: 20px;
 }
 .PriceInputCont {
   padding: 10px;
