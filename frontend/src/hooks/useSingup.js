@@ -17,7 +17,8 @@ export function useSingup() {
       setError(json.error);
     }
     if (res.ok) {
-      localStorage.setItem("user", JSON.stringify(json));
+      const date = new Date().setDate(new Date().getDate() + 1);
+      localStorage.setItem("user", JSON.stringify({ ...json, expDate: date }));
       dispatch({ type: "singup-login", payload: json });
     }
   };

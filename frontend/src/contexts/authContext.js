@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useState, useEffect, useReducer } from "react";
 
 export const AuthContext = createContext();
 function updateReducer(state, action) {
@@ -13,23 +13,54 @@ function updateReducer(state, action) {
 }
 export function AuthContextProvider({ children }) {
   const [state, dispatch] = useReducer(updateReducer, { user: null });
+  const [imgUrl, setImgUrl] = useState(null);
+
   useEffect(() => {
     const setting = async () => {
       const user = await JSON.parse(localStorage.getItem("user"));
-
       if (!user) {
         return;
       }
-      dispatch({ type: "singup-login", payload: user });
+      console.log("now time" + new Date().getTime());
+      console.log(user.expDate);
+      if (new Date().getTime() > user.expDate) {
+        localStorage.removeItem("user");
+        return;
+      }
+      const res = await fetch(
+        `http://localhost:4000/api/users/getUsr/${user.name}`
+      );
+      const json = await res.json();
+
+      const final = { ...json, token: user.token };
+      dispatch({ type: "singup-login", payload: final });
     };
     setting();
   }, []);
-  /*
+
   useEffect(() => {
-    console.log(state.user);
-  }, [state]);*/
+    if (state.user !== null) {
+      if (!state.user.imgName) return;
+    } else {
+      return;
+    }
+    async function getImg() {
+      const res = await fetch(
+        `http://localhost:4000/api/img/getImg/${state.user.imgName}`,
+        {
+          headers: {
+            Authorization: `Berar ${state.user.token}`,
+          },
+        }
+      );
+      const blob = await res.blob();
+      const imgURL = URL.createObjectURL(blob);
+      setImgUrl(imgURL);
+    }
+    getImg();
+  }, [state]);
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={{ state, dispatch, setImgUrl, imgUrl }}>
       {children}
     </AuthContext.Provider>
   );

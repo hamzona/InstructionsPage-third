@@ -4,9 +4,11 @@ const route = express();
 const {
   postComment,
   getComments,
-  deleteComment,
+  deleteComment /*
+  updatePost,
+  updateUser,*/,
 } = require("../controllers/commentController");
-route.post("/add", auth, postComment);
-route.post("/all", auth, getComments);
+route.post("/add", auth, postComment /* updatePost, updateUser*/);
+route.post("/all", getComments);
 route.delete("/delete", deleteComment);
 module.exports = route;

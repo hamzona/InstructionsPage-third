@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { usePostContext } from "../hooks/usePostContext";
 import { useMyPostsContext } from "../hooks/useMyPostsContext";
@@ -11,15 +11,28 @@ export default function Input() {
   const { state } = useAuthContext();
   const { dispatch: updatePosts } = usePostContext();
   const { dispatch: updateMyPosts } = useMyPostsContext();
+
+  const [images, setImages] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
   const navigate = useNavigate();
+
+  const subjectsConst = [
+    "matematika",
+    "biologija",
+    "fizika",
+    "hemija",
+    "bosanski",
+    "programiranje",
+    "muzicki",
+    "informatika",
+  ];
+
   //POST DATA
   async function hendleSubmit(e) {
     e.preventDefault();
-    console.log(data);
     if (!state.user) {
       return;
     }
-    console.log(data);
 
     const res = await fetch("http://localhost:4000/api/posts/add", {
       method: "POST",
@@ -36,15 +49,34 @@ export default function Input() {
       }),
     });
     const json = await res.json();
-    console.log(json);
-    if (!res.ok) {
-      setError(json.error);
-    }
+
     if (res.ok) {
-      updatePosts({ type: "addPost", payload: json });
-      updateMyPosts({ type: "addMyPost", payload: json });
+      const formData = new FormData();
+      const fileList = Array.from(images);
+      fileList.forEach((image) => {
+        formData.append("imgs", image);
+      });
+
+      const resWithImgs = await fetch(
+        `http://localhost:4000/api/img/postMultiple/${json._id}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Berar ${state.user.token}`,
+          },
+          body: formData,
+        }
+      );
+      var jsonWithImgs = await resWithImgs.json();
+      console.log(jsonWithImgs);
+    }
+
+    if (res.ok) {
+      updateMyPosts({ type: "addMyPost", payload: jsonWithImgs });
       setData("");
       navigate("/profil");
+    } else {
+      setError(json.error);
     }
   }
 
@@ -54,11 +86,31 @@ export default function Input() {
     copy[e.target.id] = e.target.value;
     setData(copy);
   }
+
+  function imageChange(e) {
+    setImages(e.target.files);
+
+    const selectedFilesCopy = [];
+    const files = e.target.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        selectedFilesCopy.push(reader.result);
+        if (selectedFilesCopy.length === files.length) {
+          setSelectedImages(selectedFilesCopy);
+        }
+      };
+    }
+  }
+  console.log(Array.from(images));
   return (
     <div className={InputCss.container}>
       <Link className={InputCss.back} to="/profil">
         Cancle
       </Link>
+      <div className={InputCss.title}>Upload post</div>
 
       <form
         className={InputCss.form}
@@ -66,99 +118,122 @@ export default function Input() {
           hendleSubmit(e);
         }}
       >
-        <div className={InputCss.title}>Input</div>
-
-        <div className={InputCss.first}>
-          <div className={InputCss.inputContainer}>
-            <label className={InputCss.label} htmlFor="title">
-              Title:*{" "}
-            </label>
+        <div className={InputCss.inputContainer}>
+          <label className={InputCss.label} htmlFor="title">
+            Title:*{" "}
+          </label>
+          <input
+            max={20}
+            className={InputCss.input}
+            type="text"
+            id="title"
+            value={data.title}
+            onChange={(e) => {
+              hendleChange(e);
+            }}
+          />
+        </div>
+        <div className={InputCss.inputContainer}>
+          <label className={InputCss.label} htmlFor="description">
+            Description:
+          </label>
+          <textarea
+            className={InputCss.inputDescription}
+            type="text"
+            id="description"
+            value={data.description}
+            onChange={(e) => {
+              hendleChange(e);
+            }}
+          />
+        </div>
+        <div className={InputCss.inputContainer}>
+          <label className={InputCss.label} htmlFor="price">
+            Price:{" "}
+          </label>
+          <div className={InputCss.priceValuteCont}>
             <input
-              className={InputCss.input}
-              type="text"
-              id="title"
-              value={data.title}
+              className={InputCss.inputPrice}
+              type="number"
+              id="price"
+              min={0}
+              max={1000}
+              value={data.price}
               onChange={(e) => {
                 hendleChange(e);
               }}
             />
-          </div>
-          <div className={InputCss.inputContainer}>
-            <label className={InputCss.label} htmlFor="description">
-              Description:
-            </label>
-            <textarea
-              className={InputCss.inputDescription}
-              type="text"
-              id="description"
-              value={data.description}
-              onChange={(e) => {
-                hendleChange(e);
-              }}
-            />
-          </div>
-          <div className={InputCss.inputContainer}>
-            <label className={InputCss.label} htmlFor="price">
-              Price:{" "}
-            </label>
-            <div className={InputCss.priceValuteCont}>
-              <input
-                className={InputCss.inputPrice}
-                type="number"
-                id="price"
-                min={0}
-                max={1000}
-                value={data.price}
-                onChange={(e) => {
-                  hendleChange(e);
-                }}
-              />
-              KM
-            </div>
+            KM
           </div>
         </div>
 
-        <div className={InputCss.second}>
-          <div className={InputCss.subjectCont}>
-            <label htmlFor="subject" className={InputCss.label}>
-              Subject:{" "}
-            </label>
-            <select
-              className={InputCss.select}
-              id="subject"
-              value={data.subject}
-              onChange={(e) => {
-                hendleChange(e);
-              }}
-            >
-              <option value={undefined}>unchecked</option>
-              <option value="matematika">Matematika</option>
-              <option value="bosanski">Bosanski</option>
-              <option value="fizika">Fizika</option>
-              <option value="hemija">Hemija</option>
-              <option value="biologija">Biologija</option>
-              <option value="muzicko">Muzicko</option>
-              <option value="likovno">Likovno</option>
-              <option value="historija">Historija</option>
-            </select>
-          </div>
+        <div className={InputCss.subjectCont}>
+          <label htmlFor="subject" className={InputCss.label}>
+            Subject:{" "}
+          </label>
+          <select
+            className={InputCss.select}
+            id="subject"
+            value={data.subject}
+            onChange={(e) => {
+              hendleChange(e);
+            }}
+          >
+            <option value={undefined}>unchecked</option>
+            {subjectsConst.map((subject, index) => {
+              return (
+                <option value={subject} key={index}>
+                  {subject}
+                </option>
+              );
+            })}
+          </select>
+        </div>
 
-          <div className={InputCss.jobTypeCont}>
-            <label htmlFor="jobType" className={InputCss.label}>
-              Job-type:{" "}
-            </label>
-            <select
-              className={InputCss.select}
-              id="jobType"
-              value={data.jobType}
-              onChange={(e) => hendleChange(e)}
-              defaultValue={undefined}
-            >
-              <option value={undefined}>unchecked</option>
-              <option value="homework">homework</option>
-              <option value="instruction">instruction</option>
-            </select>
-          </div>
+        <div className={InputCss.jobTypeCont}>
+          <label htmlFor="jobType" className={InputCss.label}>
+            Job-type:{" "}
+          </label>
+          <select
+            className={InputCss.select}
+            id="jobType"
+            value={data.jobType}
+            onChange={(e) => hendleChange(e)}
+            defaultValue={undefined}
+          >
+            <option value={undefined}>unchecked</option>
+            <option value="homework">homework</option>
+            <option value="instruction">instruction</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="images" className={InputCss.label}>
+            Images:
+          </label>
+          <input
+            multiple={true}
+            type="file"
+            onChange={(e) => {
+              imageChange(e);
+            }}
+          />
+        </div>
+
+        <div className={InputCss.selectedImagesContainer}>
+          {selectedImages.map((image) => {
+            return (
+              <div
+                className={InputCss.selectedImage}
+                style={{
+                  backgroundImage: "url(" + image + ")",
+                  backgroundPosition: "center",
+                  backgroundSize: `contain`,
+                  backgroundRepeat: "no-repeat",
+                }}
+              ></div>
+            );
+          })}
         </div>
         <button className={InputCss.button} type="submit">
           submit

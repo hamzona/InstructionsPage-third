@@ -1,6 +1,8 @@
 const Comment = require("../models/commentModel");
 const Post = require("../models/postModel");
-const postComment = async (req, res) => {
+const User = require("../models/authModel");
+
+const postComment = async (req, res, next) => {
   const { content, postId, userName } = req.body;
   let rate = parseInt(req.body.rate);
   try {
@@ -14,10 +16,10 @@ const postComment = async (req, res) => {
     }
     /*RATE */
     rate = rate === 0 ? null : rate;
-    const newComment = await Comment.create({
+    let newComment = await Comment.create({
       content,
       postId,
-      userName,
+      userId: req.user,
       rate,
     });
 
@@ -28,16 +30,15 @@ const postComment = async (req, res) => {
       rate: 1,
       _id: 0,
     });
-    console.log(rates);
     let sum = 0;
     rates.forEach((rate) => {
       sum = sum + rate.rate;
     });
-    console.log(sum);
-    console.log(rates.length);
+
     const l = rates.length === 0 ? 1 : rates.length;
     sum = sum / l;
-
+    sum.toFixed(2);
+    console.log(sum);
     var postRate = await Post.findOneAndUpdate(
       {
         _id: postId,
@@ -45,8 +46,9 @@ const postComment = async (req, res) => {
       { $set: { rate: sum } },
       { returnOriginal: false }
     );
-    console.log(postRate);
 
+    const user = await User.findOne({ _id: req.user }, { _id: 0, password: 0 });
+    newComment = { ...user._doc, ...newComment._doc };
     res.json({ newComment, postRate });
   } catch (e) {
     res.status(400).json({ error: e.message });
@@ -54,10 +56,19 @@ const postComment = async (req, res) => {
 };
 const getComments = async (req, res) => {
   const { postId } = req.body;
-  console.log(postId);
   try {
-    const allComments = await Comment.find({ postId }).sort({ _id: -1 });
-    res.json(allComments);
+    let allComments = await Comment.find({ postId }).sort({ _id: -1 });
+    const commentsWithImages = await Promise.all(
+      allComments.map(async (comment) => {
+        const user = await User.findOne(
+          { _id: comment.userId },
+          { _id: 0, password: 0 }
+        );
+        const userAndComment = { ...user._doc, ...comment._doc };
+        return userAndComment;
+      })
+    );
+    res.json(commentsWithImages);
   } catch (e) {
     res.status(400).json({ error: e.message });
   }
@@ -75,4 +86,10 @@ const deleteComment = async (req, res) => {
     res.status(400).json({ error: e.message });
   }
 };
-module.exports = { postComment, getComments, deleteComment };
+module.exports = {
+  postComment,
+  getComments,
+  deleteComment /*
+  updatePost,
+  updateUser,*/,
+};

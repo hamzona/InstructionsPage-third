@@ -1,9 +1,8 @@
 const Post = require("../models/postModel");
-
+const User = require("../models/authModel");
 const filterPosts = async (req, res, next) => {
   /*sortiranje */
   const { sortBy } = req.query;
-  console.log(sortBy);
   let sortOpition = {};
   if (sortBy === "rate") {
     sortOpition = { rate: -1 };
@@ -11,18 +10,37 @@ const filterPosts = async (req, res, next) => {
     sortOpition = { date: -1 };
   }
   /*FILTERS */
+
+  //price
   const search = req.query.search || "";
-  const max = req.query.max || 10000;
-  const min = req.query.min || 0;
+  let max = parseFloat(req.query.max);
+  let min = parseFloat(req.query.min);
+  let setPrice = false;
+  if (!(!max && !min)) {
+    setPrice = true;
+  }
+  if (!max) {
+    max = 10000;
+  }
+  if (!min) {
+    min = 0;
+  }
+  let priceFilter = setPrice
+    ? {
+        $and: [
+          { price: { $exists: true, $ne: null } },
+          { $or: [{ price: null }, { price: { $gt: min, $lt: max } }] },
+        ],
+      }
+    : {};
   let filters = {};
   Object.keys(req.query).forEach((item) => {
     if (item === "subject" || item === "jobType") {
       filters[item] = req.query[item];
     }
   });
-  console.log(sortOpition);
 
-  req.data = await Post.find({
+  const posts = await Post.find({
     $and: [
       {
         $or: [
@@ -33,11 +51,19 @@ const filterPosts = async (req, res, next) => {
         ],
       },
       filters,
-      {
-        $or: [{ price: null }, { price: { $gt: min, $lt: max } }],
-      },
+      priceFilter,
     ],
   }).sort(sortOpition);
+  req.data = await Promise.all(
+    posts.map(async (post) => {
+      const userData = await User.findById(post.userId, {
+        _id: 0,
+        password: 0,
+      });
+      const postWuser = { ...post._doc, ...userData._doc };
+      return postWuser;
+    })
+  );
   next();
 };
 
